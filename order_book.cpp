@@ -49,3 +49,22 @@ std::pair<int, int> OrderBook::best_yes_ask() {
     return {0, 0};
   return {100 - no_bid_price, no_bid_vol};
 }
+
+int OrderBook::no_spread() { return best_no_ask().first - best_no_bid().first; }
+
+int OrderBook::yes_spread() {
+  return best_yes_ask().first - best_yes_bid().first;
+}
+
+double OrderBook::no_midspot() {
+  return (best_no_ask().first + best_no_bid().first) / 2.0;
+}
+
+double OrderBook::yes_midspot() {
+  return (best_yes_ask().first + best_yes_bid().first) / 2.0;
+}
+
+void OrderBook::clear() {
+  no_bids.clear();
+  yes_bids.clear();
+}

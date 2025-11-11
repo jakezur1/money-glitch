@@ -31,6 +31,8 @@ add_executable(kalshi_mm
     infra/engine.cpp
     protocols/kalshi/kalshi_ws_adapter.cpp
     protocols/kalshi/kalshi_auth.cpp
+    protocols/kalshi/kalshi_order_book.cpp
+    protocols/kalshi/kalshi_order_book_manager.cpp
     strategy/kalshi_mm.cpp
     utils/rsa_pss.cpp
 )

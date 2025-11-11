@@ -4,7 +4,7 @@
 #include <string_view>
 #include <vector>
 
-enum class Side { YES, NO };
+enum class Side { NO, YES };
 
 struct SnapshotEvent {
   std::string ticker;

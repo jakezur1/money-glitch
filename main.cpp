@@ -28,7 +28,8 @@ int main(int argc, char **argv) {
 
   const std::string url = "wss://api.elections.kalshi.com/trade-api/ws/v2";
 
-  std::shared_ptr<Strategy> kalshi_mm = std::make_shared<KalshiMM>();
+  std::vector<std::string> tickers = {"KXNBAPLAYOFF-26-CHI"};
+  std::shared_ptr<Strategy> kalshi_mm = std::make_shared<KalshiMM>(tickers);
   std::shared_ptr<Engine> engine = std::make_shared<Engine>(kalshi_mm);
 
   std::shared_ptr<KalshiWsAdapter> kalshi_adapter =
@@ -47,8 +48,6 @@ int main(int argc, char **argv) {
     headers["KALSHI-ACCESS-KEY"] = KalshiAuth::instance().api_key_id();
     headers["KALSHI-ACCESS-TIMESTAMP"] = ts;
     headers["KALSHI-ACCESS-SIGNATURE"] = signature;
-    std::cout << ts << std::endl;
-    std::cout << signature << std::endl;
     headers["Origin"] = "";
 
     return headers;
@@ -61,10 +60,9 @@ int main(int argc, char **argv) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
-  kalshi_client.subscribe("orderbook_delta",
-                          {{"market_ticker", "KXATPMATCH-25NOV11ALCFRI-FRI"}});
+  kalshi_client.subscribe("orderbook_delta", {{"market_tickers", tickers}});
 
-  std::this_thread::sleep_for(std::chrono::seconds(10));
+  std::this_thread::sleep_for(std::chrono::seconds(30));
 
   kalshi_client.stop();
   engine->stop();
