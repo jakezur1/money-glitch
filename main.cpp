@@ -47,6 +47,8 @@ int main(int argc, char **argv) {
     headers["KALSHI-ACCESS-KEY"] = KalshiAuth::instance().api_key_id();
     headers["KALSHI-ACCESS-TIMESTAMP"] = ts;
     headers["KALSHI-ACCESS-SIGNATURE"] = signature;
+    std::cout << ts << std::endl;
+    std::cout << signature << std::endl;
     headers["Origin"] = "";
 
     return headers;
@@ -59,9 +61,8 @@ int main(int argc, char **argv) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
-  kalshi_client.subscribe(
-      "orderbook_delta",
-      {{"market_tickers", {"KXBTC-24DEC31", "INXD-24JAN15"}}});
+  kalshi_client.subscribe("orderbook_delta",
+                          {{"market_ticker", "KXNFLGAME-25NOV10PHIGB"}});
 
   std::this_thread::sleep_for(std::chrono::seconds(10));
 

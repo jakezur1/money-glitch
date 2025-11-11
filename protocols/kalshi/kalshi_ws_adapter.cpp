@@ -1,8 +1,10 @@
 #include "protocols/kalshi/kalshi_ws_adapter.hpp"
+#include <iostream>
 #include <nlohmann/json.hpp>
 
 std::optional<FeedEvent> KalshiWsAdapter::parse(std::string_view raw) {
   nlohmann::json jdata = nlohmann::json::parse(raw, nullptr, false);
+  std::cout << jdata["msg"] << std::endl;
   if (jdata.is_discarded()) {
     return std::nullopt;
   }
@@ -24,9 +26,11 @@ std::optional<FeedEvent> KalshiWsAdapter::parse(std::string_view raw) {
       for (const auto &level : msg["yes"]) {
         int price = level[0].get<int>();
         int vol = level[1].get<int>();
+        std::cout << "(" << price << " " << vol << "), ";
         snap.yes_levels.emplace_back(price, vol);
       }
     }
+    std::cout << std::endl;
 
     if (msg.contains("no")) {
       for (const auto &level : msg["no"]) {

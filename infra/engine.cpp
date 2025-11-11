@@ -1,4 +1,5 @@
 #import "engine.hpp"
+#include <iostream>
 
 Engine::Engine(std::shared_ptr<Strategy> strat)
     : strategy(std::move(strat)), running(false) {}

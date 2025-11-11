@@ -18,7 +18,8 @@ public:
   WsClient(std::string url_, std::shared_ptr<Adapter> adapter,
            std::shared_ptr<Engine> engine, HeadersFactory headers_factory)
       : url(std::move(url_)), adapter(adapter), engine(engine),
-        headers_factory(std::move(headers_factory)), connected(false) {
+        headers_factory(std::move(headers_factory)), connected(false),
+        reconnect_needed(false) {
     ws.setUrl(url);
     ws.disableAutomaticReconnection();
     ws.setMaxWaitBetweenReconnectionRetries(10000);
@@ -32,7 +33,6 @@ public:
   void start() {
     running = true;
     apply_headers();
-    ws.start();
     reconnect_thread = std::thread([this] { loop(); });
   }
 
@@ -53,16 +53,18 @@ public:
   }
 
   void loop() {
-    while (running) {
+    while (running.load()) {
       apply_headers();
       ws.start();
       {
         std::unique_lock<std::mutex> lock(reconnect_mutex);
-        reconnect_cv.wait(lock, [&] { return !running || reconnect_needed; });
-        if (running)
+        reconnect_cv.wait(
+            lock, [&] { return !running.load() || reconnect_needed.load(); });
+        if (!running.load())
           break;
         reconnect_needed = false;
       }
+
       ws.stop();
       std::this_thread::sleep_for(std::chrono::seconds(2));
     }
