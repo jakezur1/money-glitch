@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
   }
 
   kalshi_client.subscribe("orderbook_delta",
-                          {{"market_ticker", "KXNFLGAME-25NOV10PHIGB"}});
+                          {{"market_ticker", "KXATPMATCH-25NOV11ALCFRI-FRI"}});
 
   std::this_thread::sleep_for(std::chrono::seconds(10));
 
