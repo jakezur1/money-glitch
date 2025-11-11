@@ -10,8 +10,6 @@ public:
 
   KalshiOrderBook *get_book(const std::string &ticker);
 
-  // ---- The two main entrypoints you asked for ----
-
   KalshiOrderBook::ApplyResult set_ticker_snapshot(std::int64_t cid,
                                                    const SnapshotEvent &snap);
 
