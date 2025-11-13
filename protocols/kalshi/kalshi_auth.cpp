@@ -2,7 +2,6 @@
 #include "utils/rsa_pss.hpp"
 
 #include <chrono>
-#include <iostream>
 #include <stdexcept>
 
 KalshiAuth &KalshiAuth::instance() {

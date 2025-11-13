@@ -3,7 +3,6 @@
 
 KalshiOrderBook::ApplyResult
 KalshiOrderBook::apply_snapshot(const SnapshotEvent &snap) {
-  assert(snap.ticker == ticker);
   if (has_snapshot && snap.seq <= last_seq)
     return ApplyResult::IgnoredOld;
   book.set_snapshot(snap.yes_levels, snap.no_levels);
@@ -14,8 +13,6 @@ KalshiOrderBook::apply_snapshot(const SnapshotEvent &snap) {
 
 KalshiOrderBook::ApplyResult
 KalshiOrderBook::apply_delta(const DeltaEvent &delta) {
-  if (delta.ticker != ticker)
-    return ApplyResult::IgnoredOld;
   if (!has_snapshot)
     return ApplyResult::NoSnapshotYet;
   if (delta.seq <= last_seq)

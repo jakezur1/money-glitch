@@ -10,10 +10,12 @@ public:
 
   KalshiOrderBook *get_book(const std::string &ticker);
 
-  KalshiOrderBook::ApplyResult set_ticker_snapshot(std::int64_t cid,
+  KalshiOrderBook::ApplyResult set_ticker_snapshot(std::string &ticker,
+                                                   std::int64_t cid,
                                                    const SnapshotEvent &snap);
 
-  KalshiOrderBook::ApplyResult update_ticker_delta(std::int64_t cid,
+  KalshiOrderBook::ApplyResult update_ticker_delta(std::string &ticker,
+                                                   std::int64_t cid,
                                                    const DeltaEvent &delta);
 
 private:

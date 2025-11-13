@@ -20,17 +20,15 @@ KalshiOrderBook *KalshiOrderBookManager::get_book(const std::string &ticker) {
   return &it->second;
 }
 
-KalshiOrderBook::ApplyResult
-KalshiOrderBookManager::set_ticker_snapshot(std::int64_t cid,
-                                            const SnapshotEvent &snap) {
-  auto &book = get_or_create_book(snap.ticker, cid);
+KalshiOrderBook::ApplyResult KalshiOrderBookManager::set_ticker_snapshot(
+    std::string &ticker, std::int64_t cid, const SnapshotEvent &snap) {
+  auto &book = get_or_create_book(ticker, cid);
   return book.apply_snapshot(snap);
 }
 
-KalshiOrderBook::ApplyResult
-KalshiOrderBookManager::update_ticker_delta(std::int64_t cid,
-                                            const DeltaEvent &delta) {
-  auto &book = get_or_create_book(delta.ticker, cid);
+KalshiOrderBook::ApplyResult KalshiOrderBookManager::update_ticker_delta(
+    std::string &ticker, std::int64_t cid, const DeltaEvent &delta) {
+  auto &book = get_or_create_book(ticker, cid);
   return book.apply_delta(delta);
 }
 
